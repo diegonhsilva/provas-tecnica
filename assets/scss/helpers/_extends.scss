@@ -1,0 +1,10 @@
+%inlineBlockChild{
+	font-size:0;
+	word-spacing:-0.15em;
+	letter-spacing:-0.1em;
+	> *{
+		display:inline-block;
+		word-spacing:normal;
+		letter-spacing:normal;
+	}
+}

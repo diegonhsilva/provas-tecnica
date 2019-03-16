@@ -1,0 +1,64 @@
+@import "mixins";
+
+//RESET
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, 
+form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, figure
+{ 
+	margin:0; 
+	padding:0; 
+	border:0; 
+	outline:0; 
+	font-size:100%; 
+	vertical-align:baseline; 
+	background:transparent; 
+}
+body{ line-height:1; }
+ol, ul{ list-style:none; }
+blockquote, q{ quotes:none; }
+hr{ display:none; }
+textarea{ resize:none; overflow:auto; }
+ins{ text-decoration:none; }
+del{ text-decoration:line-through; }
+a{ text-decoration:none; }
+
+:focus{ outline:0; }
+
+//clearing
+.clearfix:after{ content:"."; display:block; height:0; clear:both; visibility:hidden; }
+* html>body .clearfix{ display:inline-block; width:100%; }
+
+//replace
+.replace{
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-color:transparent;
+	text-indent:-9999em;
+	overflow:hidden;
+	display:block;
+	* {
+		text-indent:-9999em;
+		display:block;
+		background-repeat: no-repeat;
+		background-position: left top;
+		background-color:transparent;
+	}
+	a{
+		text-indent:0;
+		span{
+			text-indent:-10000px;
+		}
+	}
+}
+
+//replace de botoes
+.replace-bt{
+	text-indent:-999px;
+	line-height:999999px;
+	cursor:pointer;
+	border:none;
+}
+
+//hidden
+.hidden { display:none; }
