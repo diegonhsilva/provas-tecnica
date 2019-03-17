@@ -1,13 +1,13 @@
 var paginaAtual = 1;
 var qtdPorPagina = 20;
 var quantidade = 0;
+var qtdPaginas = 0;
+var qtdPaginasExibir = 5;
+var contadorAux = 1;
 var produtos;
 
 function listaProdutos(){
-    //variáveis
     var urlService = "/front-end/mock-products.json";
-
-    //Capturar Dados Usando Método AJAX do jQuery
     $.ajax({
         type: "GET", 
         url: urlService,
@@ -19,7 +19,7 @@ function listaProdutos(){
             $('.loader').show();
         },
         error: function() {
-            //mensagem erro
+            alert('OPSS! Erro ao carregar produtos.');
         },
         success: function(retorno) {
             produtos = retorno.products;
@@ -36,12 +36,13 @@ function listaProdutos(){
     });  
 }
 function montarPaginacao(){
-    var qtdPaginas = parseInt(quantidade / qtdPorPagina) + 1;
+    qtdPaginas = parseInt(quantidade / qtdPorPagina) + 1;
     for (var index = 1; index <= qtdPaginas; index++) {
         $('.paginacao ul').append('<li><a href="javascript:paginar('+index+')">'+index+'</a></li>');        
     }
     $('.paginacao ul li:first-child a').addClass('active');
     $('.paginacao .lk-left').addClass('disable');
+    $('.paginacao .lista').css('max-width', qtdPaginasExibir * $('.paginacao ul li').width());
     $('.paginacao ul').width(qtdPaginas * $('.paginacao ul li').width());
 }
 
@@ -91,26 +92,38 @@ function ordenar(){
     //paginar produtos
     paginaAtual = 1;
     paginar(paginaAtual);
+    $('.paginacao ul').animate({'left': 0}, 500);
+    contadorAux = 1;
+}
+
+function paginacaoRolagem(direcao){
+    var aux = parseInt(qtdPaginas / qtdPaginasExibir);
+    if(direcao == "left" && contadorAux > 1){
+        contadorAux--;
+        $('.paginacao ul').animate({'left': - (contadorAux - 1) * $('.paginacao .lista').width()}, 500);
+    }else if(direcao == "right" && contadorAux <= aux){
+        $('.paginacao ul').animate({'left': - contadorAux * $('.paginacao .lista').width()}, 500);
+        contadorAux++;
+    }
+    $('.paginacao > a').removeClass('disable');
+    if(contadorAux == 1 || contadorAux > aux)
+        $('.paginacao > a.lk-' + direcao).addClass('disable');
 }
 
 
 $(document).ready(function(){
+
+    //carrega a lista de produtos
     listaProdutos();
 
-    $('.lk-left').click(function(){
-        $('.paginacao ul').animate({'left': 0}, 500);
-        $('.paginacao > a').removeClass('disable');
-        $(this).addClass('disable');
-    });
-
-    $('.lk-right').click(function(){
-        $('.paginacao ul').animate({'left': - $('.paginacao .lista').width()}, 500);
-        $('.paginacao > a').removeClass('disable');
-        $(this).addClass('disable');
-    });
-
+    //ordenacao de produtos
     $('#selFiltro').change(function(){
         ordenar();
+    });
+
+    //menu mobile
+    $('#topo').on('click', '.lk-menu, .lk-fechar', function(){
+        $('#topo .menu-mobile').toggleClass('ativo');
     });
 
 });
